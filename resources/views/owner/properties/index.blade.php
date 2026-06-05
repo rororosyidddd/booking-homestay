@@ -1,5 +1,5 @@
 @extends('layouts.owner')
-
+@use('Illuminate\Support\Facades\Storage')
 @section('title', 'Properti Saya')
 
 @section('content')

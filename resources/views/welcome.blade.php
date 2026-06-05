@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@use('Illuminate\Support\Facades\Storage')
 @section('title', 'Beranda')
 
 @section('content')
@@ -38,9 +38,14 @@
             @foreach($properties as $property)
             <a href="{{ route('properties.show', $property) }}"
                class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
-                <div class="h-48 bg-indigo-100 flex items-center justify-center">
-                    <span class="text-indigo-300 text-4xl">🏨</span>
-                </div>
+                @if($property->cover_image)
+                    <img src="{{ Storage::url($property->cover_image) }}" alt="{{ $property->name }}"
+                        class="w-full h-48 object-cover">
+                @else
+                    <div class="h-48 bg-indigo-100 flex items-center justify-center">
+                        <span class="text-indigo-300 text-4xl">🏨</span>
+                    </div>
+                @endif
                 <div class="p-4">
                     <div class="flex items-start justify-between">
                         <div>

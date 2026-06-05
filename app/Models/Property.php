@@ -26,6 +26,7 @@ class Property extends Model
         'check_in_time',
         'check_out_time',
         'status',
+        'cover_image',
     ];
 
     // Relationships

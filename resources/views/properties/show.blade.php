@@ -40,6 +40,18 @@
                     @foreach($property->rooms as $room)
                     @if($room->status === 'available')
                     <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                        <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+                     @if($room->images->isNotEmpty())
+                    <img src="{{ Storage::url($room->images->where('is_primary', true)->first()?->path ?? $room->images->first()->path) }}"
+                    alt="{{ $room->name }}"
+                    class="w-full h-48 object-cover">
+                     @else
+        <div class="h-48 bg-indigo-100 flex items-center justify-center">
+            <span class="text-indigo-300 text-4xl">🏨</span>
+        </div>
+    @endif
+    <div class="p-5">
+        <div class="flex items-start justify-between flex-wrap gap-4">
                         <div class="flex items-start justify-between flex-wrap gap-4">
                             <div class="flex-1">
                                 <h3 class="font-semibold text-gray-800">{{ $room->name }}</h3>

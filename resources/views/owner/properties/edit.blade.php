@@ -1,5 +1,5 @@
 @extends('layouts.owner')
-
+@use('Illuminate\Support\Facades\Storage')
 @section('title', isset($property) ? 'Edit Properti' : 'Tambah Properti')
 
 @section('content')
@@ -9,7 +9,7 @@
 </div>
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-2xl">
-    <form method="POST" action="{{ isset($property) ? route('owner.properties.update', $property) : route('owner.properties.store') }}">
+    <form method="POST" action="{{ isset($property) ? route('owner.properties.update', $property) : route('owner.properties.store') }}" enctype="multipart/form-data">
         @csrf
         @if(isset($property)) @method('PUT') @endif
 
@@ -94,6 +94,19 @@
             </div>
         </div>
 
+        <div class="mt-6 flex gap-3">
+            {{-- Cover Image --}}
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Foto Cover</label>
+                @if(isset($property) && $property->cover_image)
+                    <img src="{{ Storage::url($property->cover_image) }}" alt="Cover"
+                         class="w-full h-40 object-cover rounded-lg mb-2">
+                @endif
+                <input type="file" name="cover_image" accept="image/*"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                <p class="text-xs text-gray-400 mt-1">Maksimal 2MB. Format: JPG, PNG.</p>
+            </div>
+        </div>
         <div class="mt-6 flex gap-3">
             <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700">
                 {{ isset($property) ? 'Update Properti' : 'Simpan Properti' }}

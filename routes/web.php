@@ -9,6 +9,7 @@ use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\Owner\BookingController as OwnerBookingController;
 use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\PropertyController as OwnerPropertyController;
+use App\Http\Controllers\Owner\RoomImageController;
 use App\Http\Controllers\Owner\RoomController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,11 @@ Route::middleware(['auth', 'verified', 'role:owner,admin'])
         Route::prefix('properties/{property}')->name('properties.')->group(function () {
             Route::resource('rooms', RoomController::class);
         });
+
+        // Room Images
+        Route::post('/rooms/images', [RoomImageController::class, 'store'])->name('rooms.images.store');
+        Route::patch('/rooms/images/{roomImage}/primary', [RoomImageController::class, 'setPrimary'])->name('rooms.images.primary');
+        Route::delete('/rooms/images/{roomImage}', [RoomImageController::class, 'destroy'])->name('rooms.images.destroy');
 
         // Bookings
         Route::get('/bookings', [OwnerBookingController::class, 'index'])->name('bookings.index');

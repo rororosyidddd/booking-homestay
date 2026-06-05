@@ -37,10 +37,15 @@ class PropertyController extends Controller
             'email'          => 'nullable|email',
             'check_in_time'  => 'required|string',
             'check_out_time' => 'required|string',
+            'cover_image' => 'nullable|image|max:2048',
         ]);
 
         $validated['user_id'] = auth()->id();
         $validated['status']  = 'pending';
+
+        if ($request->hasFile('cover_image')) {
+        $validated['cover_image'] = $request->file('cover_image')->store('properties', 'public');
+}
 
         Property::create($validated);
 
@@ -80,7 +85,16 @@ class PropertyController extends Controller
             'email'          => 'nullable|email',
             'check_in_time'  => 'required|string',
             'check_out_time' => 'required|string',
+            'cover_image' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('cover_image')) {
+        // Hapus foto lama
+        if ($property->cover_image) {
+        \Illuminate\Support\Facades\Storage::disk('public')->delete($property->cover_image);
+        }
+        $validated['cover_image'] = $request->file('cover_image')->store('properties', 'public');
+        }
 
         $property->update($validated);
 
